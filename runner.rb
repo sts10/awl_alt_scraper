@@ -1,6 +1,4 @@
-require 'pry'
 require 'nokogiri'
-require 'rss'
 require 'open-uri'
 require 'csv'
 
