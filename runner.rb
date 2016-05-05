@@ -52,7 +52,7 @@ all_posts = []
 
 # 2707 is last page as of today
 total_number_of_pages_to_scrape = 2705
-time_to_sleep_between_page_scrapes = 2
+time_to_sleep_between_page_scrapes = 4
 
 total_number_of_pages_to_scrape.times do |i|
   i = i + 1
