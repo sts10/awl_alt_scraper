@@ -9,7 +9,13 @@ rss_url = "http://feeds2.feedburner.com/TheAwl"
 class Page
   attr_reader :posts
   def initialize(url)
+    begin
     @doc = Nokogiri::HTML(open(url))
+    rescue
+      puts "chillin for a hot second"
+      sleep 120
+      @doc = Nokogiri::HTML(open(url))
+    end
     @posts = []
     self.make_posts
   end
@@ -48,7 +54,7 @@ all_posts = []
 total_number_of_pages_to_scrape = 2705
 time_to_sleep_between_page_scrapes = 2
 
-20.times do |i|
+11.times do |i|
   i = i + 1
   this_page_url = base_url + i.to_s
   
