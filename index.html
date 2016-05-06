@@ -1,0 +1,86 @@
+<html>
+  <head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <script src="js/jquery-csv.js"></script>
+  <script>
+    $(document).ready(function(){
+      var path_to_csv_file = "https://raw.githubusercontent.com/sts10/awl_alt_scraper/master/csv/just_with_alt.csv";
+
+      $.ajax({
+        url: path_to_csv_file,
+        async: false,
+        success: function (csvd) {
+          data = $.csv.toArrays(csvd);
+        },
+        dataType: "text",
+        complete: function () {
+          // call a function on complete 
+          console.log(data);
+
+          pickAndDraw(data);
+
+          // 4. add a "get new" button
+        }
+      });
+
+      function pickAndDraw(data){
+        var numberOfPosts = data.length
+          // 1. get random num from 0 to numberOfPosts
+          var randNum = Math.floor(Math.random() * numberOfPosts);
+        var this_post = data[randNum];
+
+        // 2. Parse out post_url, image_src, and alt_text
+        var post_url = this_post[0];
+        var image_src = this_post[1];
+        var alt_text = this_post[2];
+        // 3. Write those 3 varibles down to the body
+
+        $('img#image').attr('src', image_src);
+        $('img#image').attr('alt', alt_text);
+        //$('div#image').css('background-image', "url('"+image_src+"')");
+        $('a#link').attr('href', post_url);
+        $('a#link').html(alt_text);
+      }
+
+      $('#div-link').on("click", function(){
+        pickAndDraw(data);
+      });
+      $('.again').on("click", function(){
+        pickAndDraw(data);
+      });
+    });
+  </script>
+  <style>
+    .alt_caption {
+      position: relative;
+      display: inline;
+      z-index:99;
+      height: 70px;
+      top: -69px;
+      font-size: 60px;
+      background-color:#F7E712;
+      font-family:helvetica;
+
+    }
+    .alt_caption a {
+      text-decoration:none;
+      color: #222;
+    }
+  </style>
+  </head>
+  <body>
+    <a id="div-link" href="#">
+      <div>
+        <img id="image" width="700px" alt="">
+      
+      </div>
+    </a>
+    <!-- <img id="image"><br> -->
+    <div class="alt_caption">
+      <a id="link" href="#"></a>
+    </div>
+    <br>
+
+    <button class="again">Another</button>
+  </body>
+</html>
