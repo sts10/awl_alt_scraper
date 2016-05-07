@@ -59,6 +59,7 @@
         $('img#image').attr('alt', alt_text);
         $('a#link').attr('href', post_url);
         $('a#link').html(alt_text);
+        document.title = alt_text;
 
         // 4. write the post_url into the address bar
         var baseURL = window.location.toString().split("?")[0];
