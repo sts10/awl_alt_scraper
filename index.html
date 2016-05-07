@@ -1,6 +1,6 @@
 <html>
   <head>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
   <script src="js/jquery-csv.js"></script>
   <script>
     $(document).ready(function(){
@@ -15,19 +15,39 @@
         dataType: "text",
         complete: function () {
           // call a function on complete 
-          console.log(data);
 
-          pickAndDraw(data);
+          var baseURL = window.location.toString();
+          // if baseUrl ends in a question mark we have to cut that off
+          if (baseURL.slice(-1) == "?"){
+            baseURL = baseURL.slice(0, -1);
+            history.replaceState({}, document.title, baseURL); 
+          }
+          if (baseURL.split("?")[1] !== undefined && baseURL.split("?")[1] !== ""){
+            var givenURL = baseURL.split("?")[1];
+          } 
 
-          // 4. add a "get new" button
+          pickAndDraw(data, givenURL);
         }
       });
 
-      function pickAndDraw(data){
-        var numberOfPosts = data.length
-          // 1. get random num from 0 to numberOfPosts
+      function pickAndDraw(data, givenURL){
+        var numberOfPosts = data.length;
+
+        if(typeof givenURL == "undefined"){
+          // no url given... pick a random one
           var randNum = Math.floor(Math.random() * numberOfPosts);
-        var this_post = data[randNum];
+          var this_post = data[randNum];
+        } else {
+          // a url has been given... let's go find it in the data
+          var i = 0;
+          while(i < numberOfPosts){
+            if (data[i][0] == givenURL){
+              var this_post = data[i];
+              break;
+            }
+            i = i + 1;
+          }
+        }
 
         // 2. Parse out post_url, image_src, and alt_text
         var post_url = this_post[0];
@@ -37,9 +57,12 @@
 
         $('img#image').attr('src', image_src);
         $('img#image').attr('alt', alt_text);
-        //$('div#image').css('background-image', "url('"+image_src+"')");
         $('a#link').attr('href', post_url);
         $('a#link').html(alt_text);
+
+        // 4. write the post_url into the address bar
+        var baseURL = window.location.toString().split("?")[0];
+        history.replaceState({}, document.title, baseURL + "?" + post_url); 
       }
 
       $('#div-link').on("click", function(){
@@ -69,18 +92,25 @@
   </style>
   </head>
   <body>
-    <a id="div-link" href="#">
+    <a id="div-link" href="">
       <div>
         <img id="image" width="700px" alt="">
       
       </div>
     </a>
-    <!-- <img id="image"><br> -->
     <div class="alt_caption">
       <a id="link" href="#"></a>
     </div>
     <br>
 
-    <button class="again">Another</button>
+    Click the image for another (or <button class="again">this button</button>)
+    <br>
+    Click the text to go to the post.
+
+    <br><br><br>
+    <a href="https://raw.githubusercontent.com/sts10/awl_alt_scraper/master/csv/just_with_alt.csv">raw CSV</a> / 
+    <a href="https://github.com/sts10/awl_alt_scraper">Github</a>
+    <br>
+    <a href="http://samschlinkert.com/awl-two-headlines/">Fun with Awl two-word headlines</a>
   </body>
 </html>
