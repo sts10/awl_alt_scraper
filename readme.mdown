@@ -11,6 +11,7 @@ The two CSVs: [all](https://raw.githubusercontent.com/sts10/awl_alt_scraper/mast
 
 I then made a little site, `index.html` ([live demo](http://samschlinkert.com/awl-alt-tags/#)) to display these three pieces of information from each of 6,000+ posts that had images with alt text. Yay!
 
-
 <blockquote class="twitter-tweet" data-conversation="none" data-lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/sts10">@sts10</a> Sic transit stultitia mundi.</p>&mdash; Alex Balk (@AlexBalk) <a href="https://twitter.com/AlexBalk/status/727900604539019264">May 4, 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+And here's [a blog post](http://sts10.github.io/blog/2016/05/07/website-scraped/) about this project.
